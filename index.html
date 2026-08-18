@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bài test Online — Chuyên môn Điều trị Mụn (50 câu) | Thuỷ Spa</title>
+<title>Bài test Online — Đào tạo KTV | Thuỷ Spa / EvaS</title>
 <style>
   :root{
     --p:#6d4c8f; --pd:#4b3266; --g:#2e7d32; --r:#c62828; --gold:#b8860b;
@@ -24,7 +24,6 @@
   h2{font-size:18px;color:var(--pd);margin-bottom:10px;}
   h3{font-size:15px;color:var(--p);margin:14px 0 8px;}
 
-  /* quiz area */
   .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;}
   .progress{flex:1;min-width:180px;height:10px;background:#efe7f7;border-radius:999px;overflow:hidden;}
   .progress .bar{height:100%;background:linear-gradient(90deg,var(--p),#9a6fb8);border-radius:999px;transition:width .25s;}
@@ -53,6 +52,8 @@
   .btn.ghost:hover{background:#e4d8f1;}
   .btn.green{background:var(--g);color:#fff;}
   .btn.green:hover{background:#1b5e20;}
+  .btn.gold{background:var(--gold);color:#fff;}
+  .btn.gold:hover{background:#8a6d1a;}
   .btn:disabled{opacity:.4;cursor:not-allowed;}
 
   .jump{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;}
@@ -61,7 +62,6 @@
   .jump .j.ans{background:#e8f5e9;border-color:#a5d6a7;color:#1b5e20;}
   .jump .j.cur.ans{background:var(--p);color:#fff;}
 
-  /* result */
   .score-big{text-align:center;padding:20px 0 10px;}
   .score-big .s{font-size:56px;font-weight:800;color:var(--p);line-height:1;}
   .score-big .s small{font-size:22px;color:var(--mut);font-weight:600;}
@@ -82,6 +82,9 @@
   .review-item .exp{font-size:13px;color:var(--mut);background:#f7f3fb;border-left:3px solid var(--line);padding:8px 12px;border-radius:6px;margin-top:8px;}
 
   .footer-note{text-align:center;color:var(--mut);font-size:12px;margin-top:22px;}
+  .reward-box{border-radius:12px;padding:14px 16px;margin:12px auto;max-width:520px;font-weight:700;font-size:15px;background:#fdf6e7;border:2px solid #ecd9a8;color:#8a6d1a;}
+  .reward-box.win{background:#fff8e1;border-color:#f9a825;color:#b8860b;animation:pulse 1.5s infinite;}
+  @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.03);}}
 
   @media print{
     body{background:#fff;font-size:12.5px;}
@@ -103,34 +106,31 @@
 <body>
 <div class="page">
 
-<!-- ============ HERO ============ -->
 <div class="hero">
   <div class="brand">Thuỷ Spa · EvaS Beauty &amp; Spa — Quỳnh Côi, Thái Bình</div>
   <h1>📝 Bài test Online — Chấm điểm tự động</h1>
-  <div class="sub">Chuyên môn Điều trị Mụn · 50 câu trắc nghiệm · KTV đạt ≥ 80/100 mới được thực hành trực tiếp trên khách</div>
+  <div class="sub">Đào tạo &amp; kiểm tra nhân sự định kỳ: điền tên → làm bài → nộp → máy chấm điểm ngay. Bài 1: Chuyên môn điều trị mụn · Bài 2: Quy trình công việc Spa (hàng tuần).</div>
   <div class="meta">
     <span class="chip" id="heroMeta"></span>
   </div>
 </div>
 
-<!-- ============ SCREEN: CHỌN BÀI ============ -->
 <div id="screenHome" class="card">
   <h2>📚 Chọn bài test</h2>
   <div id="testList"></div>
-  <h3>Thông tin học viên</h3>
+  <h3>Thông tin nhân viên</h3>
   <div style="display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 14px;">
-    <input id="inpName" type="text" placeholder="Họ và tên KTV" style="flex:1;min-width:200px;padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:14px;">
+    <input id="inpName" type="text" placeholder="Họ và tên nhân viên" style="flex:1;min-width:200px;padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:14px;">
     <input id="inpDate" type="date" style="padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:14px;">
   </div>
   <label style="display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--mut);margin-bottom:14px;">
     <input type="checkbox" id="chkShuffle" checked> Trộn thứ tự câu hỏi mỗi lần làm bài
   </label>
   <div class="box note" style="background:#fdf6e7;border:1px solid #ecd9a8;border-radius:10px;padding:12px 16px;font-size:13px;color:#8a6d1a;">
-    <b>Quy định:</b> 50 câu × 2đ = 100đ · Thang xếp loại: 90–100 ⭐ Xuất sắc · 70–89 ✅ Đạt · 50–69 ⚠️ Cần rèn luyện · &lt; 50 ❌ Chưa đạt. Làm đủ 50 câu, có thể sửa đáp án trước khi nộp. Tiến độ tự lưu khi tải lại trang.
+    <b>Quy định chung:</b> mỗi bài có thang điểm riêng (ghi trên thẻ bài test). Xếp loại theo %: ≥90% ⭐ Xuất sắc · ≥70% ✅ Đạt · ≥50% ⚠️ Cần rèn luyện · &lt;50% ❌ Chưa đạt. Bài 2 (quy trình hàng tuần): đạt <b>≥ 9,5/10 → thưởng 50.000đ</b>. Tiến độ tự lưu khi tải lại trang.
   </div>
 </div>
 
-<!-- ============ SCREEN: LÀM BÀI ============ -->
 <div id="screenQuiz" class="card" style="display:none;">
   <div class="topbar">
     <span class="qcount" id="qCount"></span>
@@ -150,12 +150,11 @@
   <div class="jump" id="jumpGrid"></div>
 </div>
 
-<!-- ============ SCREEN: KẾT QUẢ ============ -->
 <div id="screenResult" class="card" style="display:none;">
   <h2 style="text-align:center;">🏁 Kết quả bài test</h2>
   <div id="resultHeader"></div>
   <div class="result-actions">
-    <button class="btn green" id="btnCopyResult">📋 Sao chép kết quả</button>
+    <button class="btn gold" id="btnCopyResult">📋 Sao chép kết quả</button>
     <button class="btn ghost" id="btnReview">🔍 Xem chi tiết từng câu</button>
     <button class="btn primary" id="btnRetry">🔄 Làm lại bài</button>
     <button class="btn ghost" id="btnHome">📚 Về danh sách bài test</button>
@@ -163,17 +162,17 @@
   <div id="reviewList" style="display:none;"></div>
 </div>
 
-<p class="footer-note">Thuỷ Spa / EvaS — Quỳnh Côi, Thái Bình · Tài liệu nội bộ · Bài test đào tạo 18/08/2026</p>
+<p class="footer-note">Thuỷ Spa / EvaS — Quỳnh Côi, Thái Bình · Tài liệu nội bộ · Bài test đào tạo nhân sự</p>
 </div>
 
 <script>
 /* =====================================================================
-   NGÂN HÀNG CÂU HỎI — mỗi test = 50 câu. Muốn thêm bài test mới:
-   thêm 1 object vào TESTS với đủ 50 câu {q, opts:[4], a: index, exp}.
+   NGÂN HÀNG CÂU HỎI — mỗi test = {id, title, tag, perQ (điểm/câu), reward, questions[]}
    ===================================================================== */
 var TESTS = [
 {
-  id:"mun", title:"Bài 1 — Chuyên môn Điều trị Mụn", tag:"Đào tạo KTV · 18/08/2026",
+  id:"mun", title:"Bài 1 — Chuyên môn Điều trị Mụn", tag:"50 câu × 2đ = 100đ",
+  perQ: 2, reward: null,
   questions:[
   {q:"Mụn trứng cá là bệnh của đơn vị nào dưới da?",opts:["Lớp thượng bì","Đơn vị nang lông – tuyến bã","Tuyến mồ hôi","Mạch máu"],a:1,exp:"Mụn trứng cá là bệnh viêm mạn tính của đơn vị nang lông – tuyến bã, biểu hiện đa dạng về tổn thương và vị trí."},
   {q:"Tính chất đặc trưng của bệnh mụn trứng cá?",opts:["Bệnh cấp tính, tự khỏi hoàn toàn","Bệnh viêm mạn tính, có thể tái đi tái lại","Bệnh di truyền không thể kiểm soát","Bệnh chỉ gặp ở tuổi dậy thì"],a:1,exp:"Mụn là bệnh mạn tính — cần kiểm soát và chăm sóc liên tục, vì vậy liệu trình trị mụn phải dài hạn."},
@@ -226,6 +225,32 @@ var TESTS = [
   {q:"Câu nào KTV KHÔNG được phép nói với khách?",opts:["Mụn của chị cần liệu trình dài hạn để kiểm soát","Đây là phản ứng làm sạch bình thường","Cam kết 100% hết mụn vĩnh viễn","Em sẽ theo dõi sát và dặn dò kỹ"],a:2,exp:"Mụn là bệnh mạn tính — không cam kết '100% hết vĩnh viễn'. Nói đúng: kiểm soát, hạn chế tái phát. Không tự kê thuốc uống."},
   {q:"Tình huống: nam 48 tuổi, kỹ sư xây dựng, mụn ở má trái 1 tuần, tiến triển nhanh → nghi?",opts:["Mụn nội tiết","Trứng cá cơ học / do nghề nghiệp (cạo râu, cọ sát, bụi)","Trứng cá sơ sinh","Dị ứng thức ăn"],a:1,exp:"Mụn khu trú 1 bên + nghề tiếp xúc bụi/cọ sát → nghi cơ học/nghề nghiệp: hỏi kỹ, thận trọng, có thể cần bác sĩ."}
   ]
+},
+{
+  id:"quytrinh", title:"Bài 2 — Quy trình Công việc Spa (hàng tuần)", tag:"20 câu × 0,5đ = 10đ · Đạt ≥ 9,5/10 → thưởng 50.000đ",
+  perQ: 0.5, reward: {threshold: 95, text: "🎁 CHÚC MỪNG! Bạn đạt ≥ 9,5/10 — ĐƯỢC THƯỞNG 50.000đ. Hãy sao chép kết quả gửi cho quản lý để nhận thưởng!"},
+  questions:[
+  {q:"Đầu giờ Ca 1, việc đầu tiên KTV phải làm khi mở cửa?",opts:["Ngồi chờ khách đến","Kiểm tra bật công tắc điện, nhạc, tủ nóng","Đi chợ mua đồ","Xem điện thoại"],a:1,exp:"Ca 1 bắt đầu bằng: kiểm tra bật công tắc điện, nhạc, tủ nóng; bật máy xông tinh dầu; phơi/giặt khăn; dọn tầng 2."},
+  {q:"Máy xông tinh dầu trong spa được bật khi nào?",opts:["Chỉ khi khách yêu cầu","Đầu giờ Ca 1 trước khi khách đến","Cuối giờ Ca 2","Không bao giờ bật"],a:1,exp:"Bật máy xông tinh dầu là việc đầu Ca 1 — không khí spa thơm mát sẵn sàng đón khách."},
+  {q:"Bồn gội và bát rửa mặt phải được dọn khi nào?",opts:["Cuối tuần","Sau mỗi lần làm dịch vụ cho khách","Khi quản lý nhắc","Chỉ cuối ngày"],a:1,exp:"Dọn bồn gội, vệ sinh bát rửa mặt SAU MỖI lần làm dịch vụ — vệ sinh ngay, không để sang khách sau."},
+  {q:"Cuối Ca 2, KTV phải làm gì với thiết bị máy móc?",opts:["Để nguyên cho ngày mai","Vệ sinh thiết bị máy móc, cất dọn đồ đạc","Chỉ tắt đèn","Khoá cửa rồi về"],a:1,exp:"Ca 2: giặt đồ; vệ sinh thiết bị máy móc, cất dọn đồ đạc; quét nhà lau nhà; tổng hợp Bill cuối ngày; kiểm tra tắt toàn bộ hệ thống điện."},
+  {q:"'Tổng vệ sinh' toàn spa thực hiện theo lịch nào?",opts:["Hàng tuần","Hàng tháng","6 tháng 1 lần","Khi có sự kiện"],a:1,exp:"Công việc tháng của KTV gồm: Tổng vệ sinh (hàng tháng) + Thứ 6 hàng tuần soát công nợ."},
+  {q:"Quét nhà, lau nhà là việc của ca nào?",opts:["Ca 1","Ca 2","Cả hai ca đều không","Chỉ quản lý làm"],a:1,exp:"Ca 2 đảm nhận: giặt đồ, vệ sinh máy móc, quét nhà lau nhà, tổng hợp Bill, tắt điện cuối ngày."},
+  {q:"Khăn dùng tại spa được xử lý thế nào?",opts:["Dùng 1 lần rồi bỏ","Ca 1 phơi khăn, giặt khăn; Ca 2 giặt đồ","Giặt mỗi tuần 1 lần","Khách tự mang khăn"],a:1,exp:"Phơi khăn/giặt khăn là việc đầu Ca 1; giặt đồ thuộc Ca 2 — khăn luôn sạch, thơm, đủ dùng."},
+  {q:"Giường trị liệu chuẩn gồm những gì?",opts:["1 chăn gấp 1/3 cuối giường, 1 ga, 1 khăn quấn đầu/băng đô, 1 gối","Chỉ 1 ga trải","Chăn đắp kín cả giường","Gối + khăn trải bàn"],a:0,exp:"Giường chuẩn: chăn gấp 1/3 cuối giường, ga, khăn quấn đầu/băng đô, gối — đúng chiều logo, sạch, phẳng."},
+  {q:"Xe đẩy 3 tầng: TẦNG 1 (trên cùng) đựng gì?",opts:["Màng nilon ủ tê, máy nhỏ","Nước muối, cồn 70°, betadin","Bộ sản phẩm làm sạch, bông, kem tê","Đồ ăn của KTV"],a:1,exp:"Tầng 1: nước muối, cồn 70°, betadin (sát khuẩn). Tầng 2: sản phẩm làm sạch, bông, kem tê. Tầng 3: màng nilon ủ tê, máy nhỏ."},
+  {q:"Ngày 28 hàng tháng, Leader KTV phải làm gì?",opts:["Nghỉ phép","Lập danh sách vật tư tiêu hao cần bổ sung (rơi vào T7/CN làm liền trước/sau)","Điều tra khách mới","Họp toàn spa"],a:1,exp:"Ngày 28 hàng tháng có danh sách vật tư tiêu hao cần bổ sung; nếu rơi vào thứ 7/CN thì làm liền trước hoặc liền sau ngày 28."},
+  {q:"Khi khách đến làm dịch vụ, hóa đơn của Thu ngân được chuyển cho ai?",opts:["Sale","Leader điều trị","Thu ngân giữ lại","Bảo vệ"],a:1,exp:"Thu ngân: 100% hóa đơn chuyển cho Leader điều trị để chăm sóc khách sau bán và điều phối KTV."},
+  {q:"KTV nhận lịch hẹn khách từ ai và phải làm gì?",opts:["Tự tìm khách ngoài đường","Leader đưa lịch hẹn → gọi nhắc khách tới, nhận yêu cầu điều trị và gợi ý bán từ leader","Thu ngân tự gọi hết","Không cần nhắc hẹn"],a:1,exp:"KTV nhận lịch hẹn từ Leader: gọi nhắc khách tới; nhận yêu cầu điều trị và gợi ý bán từ leader."},
+  {q:"Sau mỗi buổi điều trị, KTV bắt buộc phải làm gì trên App?",opts:["Không cần ghi gì","Ghi nhận điều trị + đặt lịch hẹn (Leader kiểm tra hàng ngày)","Chỉ nhắn Zalo cho khách","Ghi vào giấy nhớ cá nhân"],a:1,exp:"KTV phải làm đúng App: ghi nhận điều trị và đặt lịch hẹn — Leader kiểm tra hàng ngày, khớp hóa đơn thu ngân."},
+  {q:"Báo cáo cuối ngày gửi cho vận hành trước mấy giờ?",opts:["Trước 9h sáng hôm sau","Trước 12h trưa","Trước 6h chiều cùng ngày","Không cần gửi"],a:0,exp:"Thu ngân, Leader, KTV, Sale đều gửi lại báo cáo cho vận hành trước 9h sáng ngày hôm sau."},
+  {q:"Khách điều trị không hiệu quả, KTV phải xử lý thế nào?",opts:["Im lặng, không báo","Báo cáo khách không hiệu quả điều trị + note vào ghi chú App (khớp với chăm sóc sau bán)","Đổ lỗi cho khách","Tự ý giảm giá"],a:1,exp:"KTV báo cáo khách không hiệu quả điều trị, khai thác khách đúng-đủ-đều và note vào ghi chú App."},
+  {q:"Thứ 6 hàng tuần, Thu ngân phải làm gì?",opts:["Nghỉ làm","Soát công nợ","Tổng vệ sinh kho","Mua sắm vật tư"],a:1,exp:"Thứ 6 hàng tuần soát công nợ (việc tháng của Thu ngân/QL). Ngày 01 đầu tháng báo cáo tồn kho."},
+  {q:"Trước khi về cuối Ca 2, KTV phải kiểm tra gì?",opts:["Tắt toàn bộ hệ thống điện + tổng hợp Bill cuối ngày","Kiểm tra tủ nóng còn mở","Để nhạc tiếp tục mở","Khóa cửa là đủ"],a:0,exp:"Ca 2 kết thúc: tổng hợp Bill cuối ngày; kiểm tra TẮT TOÀN BỘ hệ thống điện — an toàn phòng cháy, tiết kiệm điện."},
+  {q:"Thứ tự đúng 1 buổi chăm sóc da cơ bản?",opts:["Rửa mặt → tẩy trang → kem chống nắng → mặt nạ","Tẩy trang → rửa mặt → tẩy da chết → toner → noiser → toner → mặt nạ → CVG nhẹ → kem chống nắng","Mặt nạ → tẩy trang → rửa mặt","Toner → tẩy trang → rửa mặt → tẩy da chết"],a:1,exp:"Chuẩn setup dịch vụ: tẩy trang → rửa mặt → tẩy da chết → toner → noiser (1 đầu máy) → toner → mặt nạ → CVG nhẹ → kem chống nắng."},
+  {q:"Mỗi ca trực, việc 'Tổng hợp Bill cuối ngày' do ai làm?",opts:["KTV Ca 2","Sale Ca 1","Quản lý","Kế toán"],a:0,exp:"Tổng hợp Bill cuối ngày thuộc công việc KTV Ca 2 (và Thu ngân báo cáo cuối ngày)."},
+  {q:"Khi lấy nhân mụn, dụng cụ (que nặn, nhíp) được xử lý?",opts:["Dùng chung cho nhiều khách trong ngày","Thay mới/tiệt trùng cho MỖI khách","Chỉ lau qua khăn giấy","Ngâm nước lã"],a:1,exp:"Vô khuẩn tuyệt đối — dụng cụ thay mới/tiệt trùng mỗi khách. Đây là cam kết an toàn trong mô tả dịch vụ của spa."}
+  ]
 }
 ];
 
@@ -234,8 +259,18 @@ var curTest = null, curIdx = 0, answers = [], startedAt = 0, timerInt = null, or
 var STORE_KEY = "spa_test_progress_v1";
 
 function $(id){ return document.getElementById(id); }
-
 function shuffleArr(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+function fmtNum(n){ return (Math.round(n*100)/100).toString().replace(".", ","); }
+function maxScore(t){ return Math.round(t.questions.length * t.perQ * 100)/100; }
+function gradeOf(pct){
+  return pct>=90 ? '<span class="grade g-x">⭐ Xuất sắc</span>'
+       : pct>=70 ? '<span class="grade g-d">✅ Đạt yêu cầu</span>'
+       : pct>=50 ? '<span class="grade g-r">⚠️ Cần rèn luyện</span>'
+       : '<span class="grade g-k">❌ Chưa đạt</span>';
+}
+function gradeTxt(pct){
+  return pct>=90 ? "⭐ Xuất sắc" : pct>=70 ? "✅ Đạt yêu cầu" : pct>=50 ? "⚠️ Cần rèn luyện" : "❌ Chưa đạt";
+}
 
 function saveProgress(){
   try{
@@ -251,13 +286,12 @@ function renderHome(){
   TESTS.forEach(function(t, i){
     var d = document.createElement("div");
     d.style.cssText = "border:1.5px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:#fbf9fd;";
-    d.innerHTML = "<div><b style='color:var(--pd);font-size:15.5px;'>" + t.title + "</b><div style='font-size:13px;color:var(--mut);'>" + t.tag + " · " + t.questions.length + " câu · 100 điểm</div></div>";
+    d.innerHTML = "<div><b style='color:var(--pd);font-size:15.5px;'>" + t.title + "</b><div style='font-size:13px;color:var(--mut);'>" + t.tag + " · " + t.questions.length + " câu · " + fmtNum(maxScore(t)) + " điểm" + (t.reward ? " · 🎁 thưởng " + t.reward.threshold + "%" : "") + "</div></div>";
     var b = document.createElement("button");
     b.className = "btn primary"; b.textContent = "Bắt đầu làm bài →";
     b.onclick = function(){ startTest(i); };
     d.appendChild(b); list.appendChild(d);
   });
-  // auto-restore progress
   try{
     var o = JSON.parse(localStorage.getItem(STORE_KEY) || "null");
     if(o && o.test){ $("inpName").value = o.name || ""; $("inpDate").value = o.date || ""; }
@@ -336,40 +370,46 @@ $("btnSubmit").onclick = function(){
 function submitTest(){
   if(timerInt) clearInterval(timerInt);
   var elapsed = Math.floor((Date.now() - startedAt)/1000);
-  var score = 0, correct = [];
+  var correct = [];
   for(var i=0;i<curTest.questions.length;i++){
-    // tính theo thứ tự gốc: so sánh answers[i] (đã map qua order)
-    if(answers[i] === curTest.questions[i].a){ score += 2; correct.push(i); }
+    if(answers[i] === curTest.questions[i].a){ correct.push(i); }
   }
   var wrong = [];
   for(var i=0;i<curTest.questions.length;i++) if(correct.indexOf(i) < 0) wrong.push(i);
+  var maxS = maxScore(curTest);
+  var score = Math.round(correct.length * curTest.perQ * 100)/100;
+  var pct = maxS ? Math.round(score/maxS*1000)/10 : 0;
   lastResult = {
-    name: $("inpName").value.trim() || "KTV",
+    name: $("inpName").value.trim() || "Nhân viên",
     date: $("inpDate").value || new Date().toLocaleDateString("vi-VN"),
-    score: score, correct: correct.length, wrong: wrong.length, total: curTest.questions.length,
-    elapsed: elapsed, test: curTest.title
+    score: score, maxScore: maxS, pct: pct, correct: correct.length, wrong: wrong.length,
+    total: curTest.questions.length, elapsed: elapsed, test: curTest.title,
+    rewarded: !!(curTest.reward && pct >= curTest.reward.threshold)
   };
 
   $("screenQuiz").style.display = "none";
   $("screenResult").style.display = "block";
 
-  var grade = score>=90 ? '<span class="grade g-x">⭐ Xuất sắc — có thể đào tạo nâng cao</span>'
-            : score>=70 ? '<span class="grade g-d">✅ Đạt yêu cầu — được làm dịch vụ độc lập</span>'
-            : score>=50 ? '<span class="grade g-r">⚠️ Cần rèn luyện — học thêm trước khi làm khách</span>'
-            : '<span class="grade g-k">❌ Chưa đạt — đào tạo lại</span>';
-  var pass = score >= 80 ? "✅ ĐẠT ngưỡng an toàn (≥80/100) — được thực hành trực tiếp trên khách"
-                         : "❌ CHƯA đạt ngưỡng an toàn (cần ≥80/100) — phải học lại trước khi thực hành trên khách";
   var m = Math.floor(elapsed/60), s = elapsed%60;
+  var rewardHtml = "";
+  if(curTest.reward){
+    rewardHtml = lastResult.rewarded
+      ? '<div class="reward-box win">' + curTest.reward.text + '</div>'
+      : '<div class="reward-box">🎯 Mục tiêu thưởng: đạt ≥ ' + fmtNum(curTest.reward.threshold/10) + '/' + fmtNum(maxS) + ' (≥ ' + curTest.reward.threshold + '%) — cố gắng tuần sau nhé!</div>';
+  }
+  var pass = pct >= 80
+    ? "✅ ĐẠT ngưỡng an toàn (≥80%)"
+    : "❌ CHƯA đạt ngưỡng an toàn (cần ≥80%) — phải ôn lại";
   $("resultHeader").innerHTML =
-    '<div class="score-big"><div class="s">' + score + '<small>/100</small></div>' + grade +
-    '<div style="margin-top:10px;font-size:14px;color:var(--mut);">' + ($("inpName").value || "KTV") + ' · ' + ($("inpDate").value || "18/08/2026") + '</div>' +
+    '<div class="score-big"><div class="s">' + fmtNum(score) + '<small>/' + fmtNum(maxS) + '</small></div>' + gradeOf(pct) + rewardHtml +
+    '<div style="margin-top:10px;font-size:14px;color:var(--mut);">' + lastResult.name + ' · ' + lastResult.date + ' · ' + curTest.title + '</div>' +
     '<div class="stat">' +
-      '<div class="it"><div class="v">' + correct.length + '/50</div><div class="k">Số câu đúng</div></div>' +
+      '<div class="it"><div class="v">' + correct.length + '/' + curTest.questions.length + '</div><div class="k">Số câu đúng</div></div>' +
       '<div class="it"><div class="v">' + wrong.length + '</div><div class="k">Số câu sai</div></div>' +
       '<div class="it"><div class="v">' + m + ":" + (s<10?"0":"") + s + '</div><div class="k">Thời gian làm bài</div></div>' +
     '</div>' +
     '<div style="margin-top:6px;padding:12px 16px;border-radius:10px;font-weight:700;font-size:14px;' +
-    (score>=80 ? "background:#edf7ee;color:#1e6b25;" : "background:#fdeeef;color:#a01c24;") + '">' + pass + '</div></div>';
+    (pct>=80 ? "background:#edf7ee;color:#1e6b25;" : "background:#fdeeef;color:#a01c24;") + '">' + pass + '</div></div>';
   $("reviewList").style.display = "none";
   try{ localStorage.removeItem(STORE_KEY); }catch(e){}
 }
@@ -382,8 +422,8 @@ $("btnReview").onclick = function(){
     var letters = ["A","B","C","D","E","F"];
     for(var i=0;i<curTest.questions.length;i++){
       var q = curTest.questions[i], ans = answers[i], ok = (ans === q.a);
-      var state = ok ? '<span class="ok">✓ Đúng</span>' : '<span class="no">✗ Sai</span>';
-      html += '<div class="review-item"><div class="rq">Câu ' + (i+1) + ' (' + (ok?"+2đ":"0đ") + ') ' + state + '</div>' +
+      var state = ok ? '<span class="ok">✓ Đúng (+' + fmtNum(curTest.perQ) + 'đ)</span>' : '<span class="no">✗ Sai (0đ)</span>';
+      html += '<div class="review-item"><div class="rq">Câu ' + (i+1) + ' ' + state + '</div>' +
               '<div class="ra"><b>' + q.q + '</b><br>' +
               q.opts.map(function(o, j){
                 var mark = "";
@@ -404,14 +444,14 @@ $("btnRetry").onclick = function(){ startTest(TESTS.indexOf(curTest)); };
 $("btnCopyResult").onclick = function(){
   if(!lastResult) return;
   var r = lastResult;
-  var gradeTxt = r.score>=90 ? "⭐ Xuất sắc" : r.score>=70 ? "✅ Đạt yêu cầu" : r.score>=50 ? "⚠️ Cần rèn luyện" : "❌ Chưa đạt";
   var m = Math.floor(r.elapsed/60), s = r.elapsed%60;
   var txt = "🏆 KẾT QUẢ BÀI TEST — Thuỷ Spa / EvaS\n" +
             "📝 " + r.test + "\n" +
             "👤 Nhân viên: " + r.name + "\n" +
             "📅 Ngày thi: " + r.date + "\n" +
-            "🎯 Điểm: " + r.score + "/100 (" + gradeTxt + ")\n" +
-            "✅ Đúng " + r.correct + "/" + r.total + " câu · ❌ Sai " + r.wrong + " câu · ⏱ " + m + ":" + (s<10?"0":"") + s;
+            "🎯 Điểm: " + fmtNum(r.score) + "/" + fmtNum(r.maxScore) + " (" + gradeTxt(r.pct) + ")\n" +
+            "✅ Đúng " + r.correct + "/" + r.total + " câu · ❌ Sai " + r.wrong + " câu · ⏱ " + m + ":" + (s<10?"0":"") + s +
+            (r.rewarded ? "\n🎁 ĐẠT THƯỞNG 50.000đ" : "");
   function fallback(){
     var ta = document.createElement("textarea");
     ta.value = txt; document.body.appendChild(ta); ta.select();
@@ -430,7 +470,6 @@ $("btnHome").onclick = function(){
   renderHome();
 };
 
-/* init */
 renderHome();
 </script>
 </body>
