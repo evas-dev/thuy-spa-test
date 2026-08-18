@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bài test Online — Chuyên môn Điều trị Mụn (50 câu) | Thuỷ Spa</title>
+<style>
+  :root{
+    --p:#6d4c8f; --pd:#4b3266; --g:#2e7d32; --r:#c62828; --gold:#b8860b;
+    --bg:#faf7fb; --line:#e6dcef; --text:#2d2536; --mut:#6f6680;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Be Vietnam Pro","Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:15px;}
+  .page{max-width:860px;margin:0 auto;padding:24px 18px 80px;}
+
+  .hero{background:linear-gradient(135deg,var(--pd),var(--p) 55%,#9a6fb8);color:#fff;border-radius:16px;padding:30px 34px;box-shadow:0 10px 26px rgba(77,50,102,.22);}
+  .hero .brand{font-size:12px;letter-spacing:2.5px;text-transform:uppercase;opacity:.85;font-weight:600;}
+  .hero h1{font-size:24px;margin:8px 0 6px;}
+  .hero .sub{font-size:13.5px;opacity:.92;}
+  .hero .meta{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px;}
+  .hero .chip{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);padding:4px 12px;border-radius:999px;font-size:12px;}
+
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px 28px;margin:16px 0;box-shadow:0 3px 10px rgba(109,76,143,.06);}
+  h2{font-size:18px;color:var(--pd);margin-bottom:10px;}
+  h3{font-size:15px;color:var(--p);margin:14px 0 8px;}
+
+  /* quiz area */
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;}
+  .progress{flex:1;min-width:180px;height:10px;background:#efe7f7;border-radius:999px;overflow:hidden;}
+  .progress .bar{height:100%;background:linear-gradient(90deg,var(--p),#9a6fb8);border-radius:999px;transition:width .25s;}
+  .qcount{font-weight:700;color:var(--pd);font-size:14px;white-space:nowrap;}
+  .timer{font-weight:700;color:var(--gold);font-size:14px;white-space:nowrap;}
+
+  .qbox{background:#fbf9fd;border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-bottom:14px;}
+  .qbox .qt{font-size:16px;font-weight:700;color:var(--pd);margin-bottom:4px;}
+  .qbox .qtag{font-size:11.5px;color:var(--mut);margin-bottom:10px;}
+  .opts{display:flex;flex-direction:column;gap:8px;}
+  .opt{display:flex;align-items:flex-start;gap:10px;border:1.5px solid var(--line);border-radius:10px;padding:11px 14px;cursor:pointer;background:#fff;transition:all .15s;font-size:14.5px;}
+  .opt:hover{border-color:#b99bd3;background:#f7f2fb;}
+  .opt .k{min-width:26px;height:26px;border-radius:50%;background:#efe7f7;color:var(--pd);font-weight:700;display:flex;align-items:center;justify-content:center;font-size:13px;}
+  .opt.sel{border-color:var(--p);background:#f1e9f9;}
+  .opt.sel .k{background:var(--p);color:#fff;}
+  .opt.correct{border-color:#4caf50;background:#edf7ee;}
+  .opt.correct .k{background:#2e7d32;color:#fff;}
+  .opt.wrong{border-color:#e53935;background:#fdeeef;}
+  .opt.wrong .k{background:#c62828;color:#fff;}
+
+  .navbtns{display:flex;justify-content:space-between;gap:10px;margin-top:14px;}
+  .btn{border:none;border-radius:10px;padding:11px 20px;font-size:14.5px;font-weight:700;cursor:pointer;transition:all .15s;}
+  .btn.primary{background:var(--p);color:#fff;}
+  .btn.primary:hover{background:var(--pd);}
+  .btn.ghost{background:#efe7f7;color:var(--pd);}
+  .btn.ghost:hover{background:#e4d8f1;}
+  .btn.green{background:var(--g);color:#fff;}
+  .btn.green:hover{background:#1b5e20;}
+  .btn:disabled{opacity:.4;cursor:not-allowed;}
+
+  .jump{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;}
+  .jump .j{width:34px;height:34px;border-radius:8px;border:1.5px solid var(--line);background:#fff;color:var(--mut);font-size:12.5px;font-weight:600;cursor:pointer;}
+  .jump .j.cur{border-color:var(--p);background:var(--p);color:#fff;}
+  .jump .j.ans{background:#e8f5e9;border-color:#a5d6a7;color:#1b5e20;}
+  .jump .j.cur.ans{background:var(--p);color:#fff;}
+
+  /* result */
+  .score-big{text-align:center;padding:20px 0 10px;}
+  .score-big .s{font-size:56px;font-weight:800;color:var(--p);line-height:1;}
+  .score-big .s small{font-size:22px;color:var(--mut);font-weight:600;}
+  .grade{display:inline-block;border-radius:999px;padding:7px 22px;font-weight:800;font-size:15px;margin-top:10px;}
+  .g-x{background:#edf7ee;color:#1e6b25;} .g-d{background:#eef4fc;color:#1e5aa8;}
+  .g-r{background:#fdf6e7;color:#8a6d1a;} .g-k{background:#fdeeef;color:#a01c24;}
+  .stat{display:flex;justify-content:center;gap:26px;flex-wrap:wrap;margin:16px 0;}
+  .stat .it{text-align:center;}
+  .stat .it .v{font-size:22px;font-weight:800;color:var(--pd);}
+  .stat .it .k{font-size:12px;color:var(--mut);}
+  .result-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:16px 0;}
+
+  .review-item{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0;background:#fff;}
+  .review-item .rq{font-weight:700;font-size:14.5px;margin-bottom:6px;}
+  .review-item .ra{font-size:13.5px;}
+  .review-item .ok{color:var(--g);font-weight:700;}
+  .review-item .no{color:var(--r);font-weight:700;}
+  .review-item .exp{font-size:13px;color:var(--mut);background:#f7f3fb;border-left:3px solid var(--line);padding:8px 12px;border-radius:6px;margin-top:8px;}
+
+  .footer-note{text-align:center;color:var(--mut);font-size:12px;margin-top:22px;}
+
+  @media print{
+    body{background:#fff;font-size:12.5px;}
+    .hero{box-shadow:none;border-radius:0;}
+    .navbtns,.jump,.result-actions,.timer,.progress{display:none !important;}
+    .review-item{break-inside:avoid;}
+    .card{box-shadow:none;}
+  }
+  @media (max-width:600px){
+    .page{padding:14px 10px 60px;}
+    .hero{padding:22px 18px;}
+    .hero h1{font-size:19px;}
+    .card{padding:16px 14px;}
+    .qbox{padding:14px;}
+    .score-big .s{font-size:44px;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <div class="brand">Thuỷ Spa · EvaS Beauty &amp; Spa — Quỳnh Côi, Thái Bình</div>
+  <h1>📝 Bài test Online — Chấm điểm tự động</h1>
+  <div class="sub">Chuyên môn Điều trị Mụn · 50 câu trắc nghiệm · KTV đạt ≥ 80/100 mới được thực hành trực tiếp trên khách</div>
+  <div class="meta">
+    <span class="chip" id="heroMeta"></span>
+  </div>
+</div>
+
+<!-- ============ SCREEN: CHỌN BÀI ============ -->
+<div id="screenHome" class="card">
+  <h2>📚 Chọn bài test</h2>
+  <div id="testList"></div>
+  <h3>Thông tin học viên</h3>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 14px;">
+    <input id="inpName" type="text" placeholder="Họ và tên KTV" style="flex:1;min-width:200px;padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:14px;">
+    <input id="inpDate" type="date" style="padding:10px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:14px;">
+  </div>
+  <label style="display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--mut);margin-bottom:14px;">
+    <input type="checkbox" id="chkShuffle" checked> Trộn thứ tự câu hỏi mỗi lần làm bài
+  </label>
+  <div class="box note" style="background:#fdf6e7;border:1px solid #ecd9a8;border-radius:10px;padding:12px 16px;font-size:13px;color:#8a6d1a;">
+    <b>Quy định:</b> 50 câu × 2đ = 100đ · Thang xếp loại: 90–100 ⭐ Xuất sắc · 70–89 ✅ Đạt · 50–69 ⚠️ Cần rèn luyện · &lt; 50 ❌ Chưa đạt. Làm đủ 50 câu, có thể sửa đáp án trước khi nộp. Tiến độ tự lưu khi tải lại trang.
+  </div>
+</div>
+
+<!-- ============ SCREEN: LÀM BÀI ============ -->
+<div id="screenQuiz" class="card" style="display:none;">
+  <div class="topbar">
+    <span class="qcount" id="qCount"></span>
+    <div class="progress"><div class="bar" id="progBar"></div></div>
+    <span class="timer" id="timer">00:00</span>
+  </div>
+  <div class="qbox">
+    <div class="qtag" id="qTag"></div>
+    <div class="qt" id="qText"></div>
+    <div class="opts" id="qOpts"></div>
+  </div>
+  <div class="navbtns">
+    <button class="btn ghost" id="btnPrev">← Câu trước</button>
+    <button class="btn primary" id="btnNext">Câu sau →</button>
+    <button class="btn green" id="btnSubmit" style="display:none;">✅ Nộp bài</button>
+  </div>
+  <div class="jump" id="jumpGrid"></div>
+</div>
+
+<!-- ============ SCREEN: KẾT QUẢ ============ -->
+<div id="screenResult" class="card" style="display:none;">
+  <h2 style="text-align:center;">🏁 Kết quả bài test</h2>
+  <div id="resultHeader"></div>
+  <div class="result-actions">
+    <button class="btn green" id="btnCopyResult">📋 Sao chép kết quả</button>
+    <button class="btn ghost" id="btnReview">🔍 Xem chi tiết từng câu</button>
+    <button class="btn primary" id="btnRetry">🔄 Làm lại bài</button>
+    <button class="btn ghost" id="btnHome">📚 Về danh sách bài test</button>
+  </div>
+  <div id="reviewList" style="display:none;"></div>
+</div>
+
+<p class="footer-note">Thuỷ Spa / EvaS — Quỳnh Côi, Thái Bình · Tài liệu nội bộ · Bài test đào tạo 18/08/2026</p>
+</div>
+
+<script>
+/* =====================================================================
+   NGÂN HÀNG CÂU HỎI — mỗi test = 50 câu. Muốn thêm bài test mới:
+   thêm 1 object vào TESTS với đủ 50 câu {q, opts:[4], a: index, exp}.
+   ===================================================================== */
+var TESTS = [
+{
+  id:"mun", title:"Bài 1 — Chuyên môn Điều trị Mụn", tag:"Đào tạo KTV · 18/08/2026",
+  questions:[
+  {q:"Mụn trứng cá là bệnh của đơn vị nào dưới da?",opts:["Lớp thượng bì","Đơn vị nang lông – tuyến bã","Tuyến mồ hôi","Mạch máu"],a:1,exp:"Mụn trứng cá là bệnh viêm mạn tính của đơn vị nang lông – tuyến bã, biểu hiện đa dạng về tổn thương và vị trí."},
+  {q:"Tính chất đặc trưng của bệnh mụn trứng cá?",opts:["Bệnh cấp tính, tự khỏi hoàn toàn","Bệnh viêm mạn tính, có thể tái đi tái lại","Bệnh di truyền không thể kiểm soát","Bệnh chỉ gặp ở tuổi dậy thì"],a:1,exp:"Mụn là bệnh mạn tính — cần kiểm soát và chăm sóc liên tục, vì vậy liệu trình trị mụn phải dài hạn."},
+  {q:"Khoảng bao nhiêu % thanh thiếu niên gặp mụn ít nhất 1 lần?",opts:["~30%","~60%",">90%","100%"],a:2,exp:">90% thanh thiếu niên gặp mụn ít nhất 1 lần; 10% cần dùng thuốc."},
+  {q:"Bao nhiêu % trường hợp trứng cá nặng có thể để lại sẹo?",opts:["5%","20%","50%","80%"],a:1,exp:"20% trứng cá nặng có thể để lại sẹo — đây là lý do phải điều trị sớm, đúng nguyên nhân."},
+  {q:"Đa số trứng cá tự khỏi ở độ tuổi nào?",opts:["Nam < 20 tuổi, nữ 22–25 tuổi","Nam 25 tuổi, nữ 30 tuổi","Cả hai giới đều sau 30 tuổi","Không tự khỏi"],a:0,exp:"Đa số tự khỏi: nam trước 20 tuổi, nữ 22–25 tuổi — nhưng không điều trị đúng có thể nặng lên do cơ địa."},
+  {q:"Vi nhân trứng cá có kích thước?",opts:["< 2mm","2–5mm","> 5mm","Không xác định"],a:0,exp:"Vi nhân rất nhỏ (< 2mm) — mụn sắp hình thành, chưa nhìn rõ bằng mắt thường."},
+  {q:"Mụn đầu đen (nhân mở) hình thành do?",opts:["Lỗ nang lông đóng kín, cồi trắng dưới da","Lỗ nang lông mở, chất bã bị oxy hoá chuyển màu đen","Vi khuẩn gây viêm sâu","Dị ứng mỹ phẩm"],a:1,exp:"Đầu đen = nhân MỞ: lỗ nang lông mở, chất bã oxy hoá chuyển màu đen. Đầu trắng = nhân ĐÓNG."},
+  {q:"Mụn đầu trắng (nhân đóng) đặc điểm là?",opts:["Lỗ nang mở, bã oxy hoá đen","Lỗ nang lông đóng kín, nổi cồi trắng dưới da","Ổ mủ sền sệt lẫn máu","Tổn thương viêm sâu > 5mm"],a:1,exp:"Nhân đóng: lỗ nang lông đóng kín, chất bã không oxy hoá nên giữ màu trắng dưới da."},
+  {q:"Mụn mủ và sẩn (tổn thương viêm) có kích thước?",opts:["> 5mm","< 5mm","= 5mm","Không giới hạn"],a:1,exp:"Mụn mủ (d < 5mm, có đầu mủ trắng/vàng, nền đỏ) và sẩn (d < 5mm, viêm, không mủ)."},
+  {q:"Cục, nang mụn (tổn thương viêm sâu) có đặc điểm?",opts:["< 5mm, chỉ ở thượng bì","Không đau, tự xẹp","> 5mm, viêm sâu rộng tới trung bì, chắc và đau","Là mụn không viêm"],a:2,exp:"Cục/nang > 5mm, viêm sâu tới trung bì, chắc, đau. Áp xe là các cục nối thông nhau thành ổ mủ."},
+  {q:"Theo phân độ Karen McCoy, mụn NHẸ khi?",opts:["< 20 nhân không viêm, hoặc < 15 sẩn viêm, hoặc tổng < 30 tổn thương","20–100 nhân không viêm hoặc 15–50 sẩn viêm","≥ 5 cục/nang","> 125 tổn thương"],a:0,exp:"Nhẹ: <20 nhân không viêm / <15 sẩn viêm / tổng <30. Vừa: 20–100 nhân / 15–50 sẩn / tổng 30–125. Nặng: ≥5 cục nang hoặc vượt ngưỡng trên."},
+  {q:"Trường hợp nào KTV phải CHUYỂN khách đến bác sĩ da liễu?",opts:["Mụn nhẹ không viêm","Mụn đầu đen nhiều","Mụn nặng có cục/nang/áp xe, mụn kèm sốt đau nhiều, khách mang thai","Khách muốn lấy nhân mụn"],a:2,exp:"Chuyển bác sĩ khi: mụn nặng cục/nang/áp xe; sốt, đau nhiều; bùng phát toàn thân; nghi do thuốc; thai kỳ; nghi rosacea/demodex."},
+  {q:"Mụn tập trung 1/3 dưới mặt, quanh viền hàm, lên theo chu kỳ kinh → nghi?",opts:["Mụn cơ học","Mụn do mỹ phẩm","Mụn nội tiết","Trứng cá sơ sinh"],a:2,exp:"Mụn nội tiết: 1/3 dưới mặt, viền hàm, theo chu kỳ kinh, gắn rối loạn hormone; thuốc thoa ít đáp ứng."},
+  {q:"Nhận biết mụn trứng cá đỏ (Rosacea)?",opts:["Mụn chỉ ở cằm","Người 30–50 tuổi, ban đỏ lan giữa mặt hình cánh bướm, giãn mạch, cảm giác nóng bừng","Mụn ngứa nhiều, không đối xứng","Chỉ gặp ở trẻ sơ sinh"],a:1,exp:"Rosacea: 30–50 tuổi, ban đỏ giữa mặt đối xứng cánh bướm, giãn mạch, mụn viêm không nhân (mũi sư tử), nóng bừng, ít ngứa. Spa chỉ làm sạch dịu nhẹ, KHÔNG peel, KHÔNG nặn."},
+  {q:"Viêm da Demodex thường gặp sau?",opts:["Dùng nhiều kem chống nắng","Tẩy da chết thường xuyên","Dùng corticoid, suy giảm miễn dịch","Ăn nhiều đồ cay"],a:2,exp:"Demodex tăng quá mức thường sau dùng corticoid/suy giảm miễn dịch: đỏ da, ngứa, sẩn mủ, không đối xứng — cần bác sĩ điều trị (Ivermectin/Metronidazole + BPO)."},
+  {q:"Trẻ sơ sinh nổi mụn li ti 2 bên má → xử lý?",opts:["Trứng cá sơ sinh — thường tự khỏi, vệ sinh nước muối sinh lý, không tự dùng thuốc","Đắp mặt nạ trị mụn","Lấy nhân ngay","Bôi thuốc kháng sinh"],a:0,exp:"Trứng cá sơ sinh thường tự khỏi, không cần điều trị. Tư vấn cha mẹ vệ sinh bằng nước muối sinh lý."},
+  {q:"4 cơ chế chính gây mụn gồm?",opts:["Tăng sừng hoá (bít tắc) – tăng tiết bã – vi khuẩn P.acnes – viêm","Bít tắc – thiếu nước – nắng – viêm","Dầu – mồ hôi – vi khuẩn – sừng hoá","Nội tiết – di truyền – ăn uống – mỹ phẩm"],a:0,exp:"MỤN = 4 yếu tố: ① tăng sừng hoá cổ nang lông ② tăng tiết bã nhờn ③ P.acnes phát triển ④ viêm. Liệu trình đúng phải tác động đủ 4 yếu tố (sản phẩm 7/7 nguyên nhân)."},
+  {q:"Vi khuẩn chính gây mụn là?",opts:["Staphylococcus aureus","Cutibacterium acnes (P.acnes)","E. coli","Streptococcus"],a:1,exp:"P.acnes phân huỷ chất béo thành acid béo tự do gây kích ứng và kích hoạt đáp ứng miễn dịch (TLR2 → IL-1, IL-8, TNF-α)."},
+  {q:"Yếu tố ăn uống làm mụn NẶNG thêm?",opts:["Rau xanh, trái cây","Cá, thịt nạc","Đường, sữa tách béo, thực phẩm chỉ số đường huyết cao","Uống nhiều nước"],a:2,exp:"Thức ăn glycemic cao + sữa tách béo → tăng IGF-1 → kích thích tuyến bã. KTV phải dặn khách hạn chế."},
+  {q:"Mụn cơ học do nguyên nhân nào?",opts:["Cọ sát, chèn ép, co kéo (đeo khẩu trang, tựa cằm, dây đàn)","Rối loạn nội tiết tố","Dùng thuốc corticoid","Mỹ phẩm bít tắc"],a:0,exp:"Trứng cá cơ học do cọ sát/chèn ép. Phân biệt với: nghề nghiệp (dầu mỡ, khói bụi), do thuốc (corticoid, B6/B12), do mỹ phẩm (bít tắc), nội tiết."},
+  {q:"Retinoid gây kích ứng NHẤT, phải dùng buổi tối?",opts:["Adapalene","Tretinoin (0,025–0,1%)","Tazarotene","Isotretinoin uống"],a:1,exp:"Tretinoin kích ứng nhất, dùng tối, ≥12 tuổi. Adapalene 0,1–0,3% dùng được sáng + tối, ≥10 tuổi."},
+  {q:"Adapalene có đặc điểm nào?",opts:["Chỉ dùng buổi tối","Chống chỉ định tuyệt đối","0,1–0,3%, dùng được sáng và tối, ≥10 tuổi","Gây kích ứng nhiều nhất"],a:2,exp:"Adapalene 0,1–0,3% dùng sáng + tối (≥10 tuổi) — ít kích ứng hơn Tretinoin."},
+  {q:"Điểm chung CẤM TUYỆT ĐỐI của Retinoids bôi?",opts:["Không dùng cho người da khô","Không dùng cho phụ nữ có thai","Không dùng cho nam giới","Không dùng khi trời nắng"],a:1,exp:"Tretinoin, Adapalene, Tazarotene đều chống chỉ định thai kỳ. KTV phải hỏi kỹ khách trước khi tư vấn."},
+  {q:"Cách dùng BPO (Benzoyl Peroxide) ĐÚNG?",opts:["Bôi dày phủ kín cả mặt mỗi ngày","Chấm đầu tăm bông lên mụn viêm đã lên cồi; mụn mới sưng thì dùng kháng viêm trước","Trộn chung với tất cả serum","Dùng cho trẻ dưới 9 tuổi"],a:1,exp:"BPO 2,5–10%: chấm tăm bông mụn viêm CÓ CỒI. Bôi dày → viêm da tiếp xúc, chai mụn. Tăng nhạy cảm ánh sáng."},
+  {q:"Bôi BPO quá dày có hậu quả gì?",opts:["Trắng da nhanh hơn","Viêm da tiếp xúc, chai mụn","Hết mụn nhanh hơn","Không có tác dụng phụ"],a:1,exp:"Bôi dày BPO gây viêm da tiếp xúc và chai mụn — chỉ chấm mụn viêm đã lên cồi."},
+  {q:"Axit azelaic (15–20%) đặc điểm nổi bật?",opts:["Chống chỉ định thai kỳ","Chỉ dùng buổi tối","An toàn cho bà bầu và cho con bú; 20% tương đương BPO 5%","Gây bong tróc mạnh"],a:2,exp:"Azelaic 15–20%: kháng khuẩn, chống sừng hoá, kháng viêm, giảm tăng sắc tố — an toàn thai kỳ."},
+  {q:"Salicylic acid nồng độ dưới 2% có vai trò?",opts:["Điều hoà sừng hoá","Tiêu sừng mạnh","Peel hoá chất","Diệt khuẩn"],a:0,exp:"Salicylic: <2% điều hoà sừng hoá; >3% tiêu sừng; 10–30% peel hoá chất (spa dùng Feel 30–50%)."},
+  {q:"Nguyên tắc dùng kháng sinh bôi trị mụn?",opts:["Dùng đơn trị liệu kéo dài","Dùng không quá 4 tuần","Không đơn trị liệu, không dùng quá 12 tuần, phối hợp Retinoids/BPO/AzA","Chỉ dùng cho bà bầu"],a:2,exp:"Kháng sinh bôi (Clindamycin...) không đơn trị, không quá 12 tuần — tránh kháng thuốc."},
+  {q:"Niacinamide có công dụng nào?",opts:["Chỉ dưỡng ẩm","Điều tiết dầu, phục hồi hàng rào da, giảm thâm đỏ (PIE)","Diệt khuẩn mạnh","Tẩy tế bào chết"],a:1,exp:"Niacinamide 'máy giặt kèm máy sấy': đa nhiệm — kiềm dầu, phục hồi hàng rào, giảm thâm đỏ."},
+  {q:"Hoạt chất DUY NHẤT tác động cả 4 cơ chế gây mụn?",opts:["BPO","Axit azelaic","Isotretinoin (uống — chỉ bác sĩ kê)","Niacinamide"],a:2,exp:"Isotretinoin 0,5–1mg/kg, tổng 120–150mg/kg. CĐ: thai kỳ/cho con bú, bệnh gan thận, mỡ máu. KTV chỉ tư vấn, không kê."},
+  {q:"Kháng sinh UỐNG trị mụn chỉ định khi nào?",opts:["Mọi trường hợp mụn","Mụn viêm nặng/không đáp ứng thuốc bôi; không đơn độc; do bác sĩ chỉ định","Mụn đầu đen","Trẻ dưới 12 tuổi"],a:1,exp:"Kháng sinh uống (Doxy 100mg...) cho mụn viêm nặng, không đơn độc, lưu ý nhạy cảm ánh sáng, trẻ <12 tuổi, thai kỳ."},
+  {q:"Ánh sáng xanh (405–420nm) có tác dụng?",opts:["Diệt C.acnes, kháng viêm","Kích thích collagen","Giảm thâm","Làm trắng da"],a:0,exp:"Ánh sáng xanh diệt C.acnes, ngăn tăng sinh tế bào bã; ánh sáng đỏ (680nm) giảm tiết bã, phục hồi."},
+  {q:"Đèn Omega: màu nào GIẢM DẦU?",opts:["Xanh dương","Đỏ","Xanh lá","Vàng"],a:2,exp:"Đèn Omega: xanh dương = kháng viêm kháng khuẩn giảm sưng; đỏ = phục hồi tái tạo; xanh lá = giảm dầu; vàng = collagen."},
+  {q:"Peel mụn tại Thuỷ Spa dùng dung dịch nào?",opts:["Axit glycolic 70%","Phenol","Feel Salicylic 30–50%","Axit citric"],a:2,exp:"Dịch vụ FEEL mụn dùng peel Salicylic 30–50% — tiêu sừng, kháng khuẩn, đẩy nhanh hiệu quả."},
+  {q:"Dịch vụ Mụn CƠ BẢN có thời gian?",opts:["60 phút","90 phút","120 phút","150 phút"],a:1,exp:"Mụn cơ bản 90 phút, liệu trình 5 hoặc 10 buổi — bác sĩ da liễu thăm khám, sản phẩm tác động 7/7 nguyên nhân."},
+  {q:"Dịch vụ TRỊ MỤN TOÀN DIỆN (120 phút) khác Mụn cơ bản ở điểm?",opts:["Không lấy nhân mụn","Không dùng kem chống nắng","Có thêm bước Chemical Peel (Salicylic + Mandelic)","Thời gian ngắn hơn"],a:2,exp:"Trị mụn toàn diện 120 phút + Chemical Peel — rút ngắn 1/2 thời gian điều trị; buổi 2–3 giảm 70% mụn viêm."},
+  {q:"Trong Mụn cơ bản, SAU bước lấy nhân mụn là?",opts:["Đắp mặt nạ mụn kháng khuẩn 10 phút + chiếu đèn xanh Blue 10 phút","Bôi kem chống nắng ngay","Peel mụn","Điện di nóng"],a:0,exp:"Thứ tự: ...lấy nhân → mặt nạ kháng khuẩn 10p + đèn xanh 10p → serum Bemo Acne 0,5–1ml → kem mụn Bemo 2g → KCN 1g → dặn dò → set up."},
+  {q:"Liều serum trị mụn Bemo Acne cho 1 buổi?",opts:["0,1–0,3ml","0,5–1ml","2–3ml","5ml"],a:1,exp:"Serum Bemo Acne 0,5–1ml; kem mụn Bemo 2g; kem chống nắng 1g."},
+  {q:"Thứ tự thoa dung dịch peel mụn đúng chuẩn?",opts:["Mũi → cằm → má → trán","Cằm → trán → má → mũi","Trán → má → cằm → mũi","Má → trán → mũi → cằm"],a:2,exp:"Thứ tự chuẩn: TRÁN → MÁ → CẰM → MŨI (vùng mũi da nhạy, thoa sau cùng)."},
+  {q:"Trong quá trình peel, canh thời gian và dấu hiệu nào?",opts:["Canh 1 phút, không cần quan sát","Canh 3–5 phút; mụn viêm sủi lên → trung hoà SỚM; không ước lượng cảm giác","Canh 30 phút","Canh theo cảm giác nóng của khách"],a:1,exp:"Canh đồng hồ 3–5 phút. Lớp phủ trắng đồng đều = điểm cuối lâm sàng; mụn viêm sủi lên → trung hoà ngay."},
+  {q:"Chống chỉ định PEEL mụn nào KTV phải kiểm tra trước?",opts:["Viêm mụn mủ nặng, vết thương hở; đang dùng Retinoids/AHA/BHA trong 2 ngày; da nhiễm corticoid, quá nhạy cảm","Da khô nhẹ","Có vài nhân đóng","Khách vừa rửa mặt"],a:0,exp:"CĐ peel: nhiễm corticoid/chàm/viêm da tiếp xúc; vết thương hở, mụn mủ nặng; Retinoids/AHA/BHA 2 ngày gần nhất; da quá nhạy cảm/vừa xông tẩy mạnh. Frosting → ngừng, trung hoà."},
+  {q:"Dụng cụ lấy nhân mụn (que nặn, nhíp) xử lý thế nào?",opts:["Dùng chung cả ngày rồi rửa","Thay mới/tiệt trùng cho MỖI khách","Chỉ lau bằng cồn khi bẩn","Ngâm nước qua đêm"],a:1,exp:"Vô khuẩn tuyệt đối: dụng cụ lấy nhân luôn thay mới/tiệt trùng cho mỗi khách — đây là cam kết trong mô tả dịch vụ."},
+  {q:"Xe đẩy 3 tầng: TẦNG 1 chứa gì?",opts:["Nước muối, cồn 70°, betadin","Bộ sản phẩm làm sạch, bông tẩy trang, kem tê","Màng nilon ủ tê, máy nhỏ","Khăn giấy, túi nilon"],a:0,exp:"Tầng 1: nước muối, cồn 70°, betadin (sát khuẩn). Tầng 2: sp làm sạch, bông, kem tê. Tầng 3: màng nilon ủ tê, máy nhỏ."},
+  {q:"Gặp mụn viêm ĐANG SƯNG (chưa lên cồi), KTV phải?",opts:["Nặn ngay cho sạch","Không nặn, xử lý làm dịu/kháng viêm, hẹn khách buổi sau","Chườm nóng","Bôi thật nhiều BPO"],a:1,exp:"Nặn vùng viêm → đẩy vi khuẩn sâu hơn, chai mụn, thâm sẹo. Chỉ xử lý khi mụn lên cồi, đúng kỹ thuật."},
+  {q:"Dặn dò SAU PEEL đúng chuẩn?",opts:["Để yên không lau mặt cả ngày","Rửa mặt bằng nước nóng","2–3 tiếng lau mặt 1 lần, rửa nước mát, không tự bóc da, tránh nắng tuyệt đối","Bôi thật nhiều AHA ngay"],a:2,exp:"Sau peel: 2–3h lau mặt 1 lần (da tiết nhiều dầu), rửa nước mát; khô bong nhẹ 3–5 ngày — không bóc da; tránh nắng; ngưng Retinoids/AHA/BHA ≥2 ngày."},
+  {q:"Sau 2 buổi đầu điều trị, mụn 'đẩy' ra nhiều hơn — ý nghĩa?",opts:["Bệnh nặng lên, phải dừng liệu trình","Phản ứng làm sạch bình thường — mụn ẩn bít tắc được đẩy lên để xử lý tận gốc; giảm rõ từ buổi 2–3","Sản phẩm bị dị ứng","KTV thao tác sai"],a:1,exp:"Đẩy mụn sau 2 buổi đầu là phản ứng làm sạch — phải dặn trước để khách không lo. Buổi 2–3 giảm 70% mụn viêm."},
+  {q:"Tần suất chăm sóc da mụn đúng chuẩn tại spa?",opts:["2 lần/ngày","1 lần/tháng","1 tuần/lần","3 tháng/lần"],a:2,exp:"Chăm sóc da mụn 1 tuần/lần; peel/lăn kim 5–7 ngày/lần theo chỉ định."},
+  {q:"Phễu chương trình mụn chuẩn (7/2024) theo thứ tự?",opts:["CSD mụn trải nghiệm 49k → serum mụn 190k → peel mụn 499k → gói điều trị 5–10 buổi","Serum → trải nghiệm → gói → peel","Gói điều trị → trải nghiệm","Peel 499k → serum 190k → 49k"],a:0,exp:"Phễu upsale: 49k trải nghiệm → serum 190k → peel 499k (tặng mask Medic 120k + 2 buổi nặn) → gói điều trị + viên uống kiềm dầu. Giảm 20% khi mua sản phẩm."},
+  {q:"Câu nào KTV KHÔNG được phép nói với khách?",opts:["Mụn của chị cần liệu trình dài hạn để kiểm soát","Đây là phản ứng làm sạch bình thường","Cam kết 100% hết mụn vĩnh viễn","Em sẽ theo dõi sát và dặn dò kỹ"],a:2,exp:"Mụn là bệnh mạn tính — không cam kết '100% hết vĩnh viễn'. Nói đúng: kiểm soát, hạn chế tái phát. Không tự kê thuốc uống."},
+  {q:"Tình huống: nam 48 tuổi, kỹ sư xây dựng, mụn ở má trái 1 tuần, tiến triển nhanh → nghi?",opts:["Mụn nội tiết","Trứng cá cơ học / do nghề nghiệp (cạo râu, cọ sát, bụi)","Trứng cá sơ sinh","Dị ứng thức ăn"],a:1,exp:"Mụn khu trú 1 bên + nghề tiếp xúc bụi/cọ sát → nghi cơ học/nghề nghiệp: hỏi kỹ, thận trọng, có thể cần bác sĩ."}
+  ]
+}
+];
+
+/* ===================== STATE ===================== */
+var curTest = null, curIdx = 0, answers = [], startedAt = 0, timerInt = null, order = [], lastResult = null;
+var STORE_KEY = "spa_test_progress_v1";
+
+function $(id){ return document.getElementById(id); }
+
+function shuffleArr(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+
+function saveProgress(){
+  try{
+    var o = {test: curTest.id, idx: curIdx, answers: answers, name: $("inpName").value, date: $("inpDate").value};
+    localStorage.setItem(STORE_KEY, JSON.stringify(o));
+  }catch(e){}
+}
+
+/* ===================== HOME ===================== */
+function renderHome(){
+  $("heroMeta").textContent = TESTS.length + " bài test · chấm điểm tự động · lưu tiến độ tự động";
+  var list = $("testList"); list.innerHTML = "";
+  TESTS.forEach(function(t, i){
+    var d = document.createElement("div");
+    d.style.cssText = "border:1.5px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:#fbf9fd;";
+    d.innerHTML = "<div><b style='color:var(--pd);font-size:15.5px;'>" + t.title + "</b><div style='font-size:13px;color:var(--mut);'>" + t.tag + " · " + t.questions.length + " câu · 100 điểm</div></div>";
+    var b = document.createElement("button");
+    b.className = "btn primary"; b.textContent = "Bắt đầu làm bài →";
+    b.onclick = function(){ startTest(i); };
+    d.appendChild(b); list.appendChild(d);
+  });
+  // auto-restore progress
+  try{
+    var o = JSON.parse(localStorage.getItem(STORE_KEY) || "null");
+    if(o && o.test){ $("inpName").value = o.name || ""; $("inpDate").value = o.date || ""; }
+  }catch(e){}
+}
+
+/* ===================== QUIZ ===================== */
+function startTest(i){
+  curTest = TESTS[i];
+  order = [];
+  for(var k=0;k<curTest.questions.length;k++) order.push(k);
+  if($("chkShuffle").checked) shuffleArr(order);
+  answers = new Array(curTest.questions.length).fill(null);
+  curIdx = 0;
+  startedAt = Date.now();
+  if(timerInt) clearInterval(timerInt);
+  timerInt = setInterval(updateTimer, 1000);
+  $("screenHome").style.display = "none";
+  $("screenResult").style.display = "none";
+  $("screenQuiz").style.display = "block";
+  renderQ();
+  saveProgress();
+}
+
+function updateTimer(){
+  var s = Math.floor((Date.now() - startedAt)/1000);
+  var m = Math.floor(s/60); s = s%60;
+  $("timer").textContent = (m<10?"0":"")+m+":"+(s<10?"0":"")+s;
+}
+
+function renderQ(){
+  var q = curTest.questions[order[curIdx]];
+  $("qCount").textContent = "Câu " + (curIdx+1) + "/" + curTest.questions.length;
+  $("qTag").textContent = curTest.title + " · " + curTest.tag;
+  $("progBar").style.width = ((curIdx+1)/curTest.questions.length*100) + "%";
+  $("qText").textContent = q.q;
+  var opts = $("qOpts"); opts.innerHTML = "";
+  var letters = ["A","B","C","D","E","F"];
+  q.opts.forEach(function(o, j){
+    var d = document.createElement("div");
+    d.className = "opt" + (answers[order[curIdx]] === j ? " sel" : "");
+    d.innerHTML = "<span class='k'>" + letters[j] + "</span><span>" + o + "</span>";
+    d.onclick = function(){ answers[order[curIdx]] = j; renderQ(); saveProgress(); };
+    opts.appendChild(d);
+  });
+  $("btnPrev").disabled = (curIdx === 0);
+  $("btnNext").style.display = (curIdx === curTest.questions.length-1) ? "none" : "inline-block";
+  $("btnSubmit").style.display = (curIdx === curTest.questions.length-1) ? "inline-block" : "none";
+  renderJump();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function renderJump(){
+  var j = $("jumpGrid"); j.innerHTML = "";
+  for(var i=0;i<order.length;i++){
+    var b = document.createElement("button");
+    b.className = "j";
+    if(i === curIdx) b.classList.add("cur");
+    if(answers[order[i]] !== null) b.classList.add("ans");
+    b.textContent = i+1;
+    b.onclick = function(idx){ return function(){ curIdx = idx; renderQ(); }; }(i);
+    j.appendChild(b);
+  }
+}
+
+$("btnPrev").onclick = function(){ if(curIdx>0){ curIdx--; renderQ(); } };
+$("btnNext").onclick = function(){ if(curIdx<curTest.questions.length-1){ curIdx++; renderQ(); } };
+$("btnSubmit").onclick = function(){
+  var n = answers.filter(function(a){ return a !== null; }).length;
+  if(n < curTest.questions.length){
+    if(!confirm("Bạn mới trả lời " + n + "/" + curTest.questions.length + " câu. Vẫn nộp bài?")) return;
+  }
+  submitTest();
+};
+
+function submitTest(){
+  if(timerInt) clearInterval(timerInt);
+  var elapsed = Math.floor((Date.now() - startedAt)/1000);
+  var score = 0, correct = [];
+  for(var i=0;i<curTest.questions.length;i++){
+    // tính theo thứ tự gốc: so sánh answers[i] (đã map qua order)
+    if(answers[i] === curTest.questions[i].a){ score += 2; correct.push(i); }
+  }
+  var wrong = [];
+  for(var i=0;i<curTest.questions.length;i++) if(correct.indexOf(i) < 0) wrong.push(i);
+  lastResult = {
+    name: $("inpName").value.trim() || "KTV",
+    date: $("inpDate").value || new Date().toLocaleDateString("vi-VN"),
+    score: score, correct: correct.length, wrong: wrong.length, total: curTest.questions.length,
+    elapsed: elapsed, test: curTest.title
+  };
+
+  $("screenQuiz").style.display = "none";
+  $("screenResult").style.display = "block";
+
+  var grade = score>=90 ? '<span class="grade g-x">⭐ Xuất sắc — có thể đào tạo nâng cao</span>'
+            : score>=70 ? '<span class="grade g-d">✅ Đạt yêu cầu — được làm dịch vụ độc lập</span>'
+            : score>=50 ? '<span class="grade g-r">⚠️ Cần rèn luyện — học thêm trước khi làm khách</span>'
+            : '<span class="grade g-k">❌ Chưa đạt — đào tạo lại</span>';
+  var pass = score >= 80 ? "✅ ĐẠT ngưỡng an toàn (≥80/100) — được thực hành trực tiếp trên khách"
+                         : "❌ CHƯA đạt ngưỡng an toàn (cần ≥80/100) — phải học lại trước khi thực hành trên khách";
+  var m = Math.floor(elapsed/60), s = elapsed%60;
+  $("resultHeader").innerHTML =
+    '<div class="score-big"><div class="s">' + score + '<small>/100</small></div>' + grade +
+    '<div style="margin-top:10px;font-size:14px;color:var(--mut);">' + ($("inpName").value || "KTV") + ' · ' + ($("inpDate").value || "18/08/2026") + '</div>' +
+    '<div class="stat">' +
+      '<div class="it"><div class="v">' + correct.length + '/50</div><div class="k">Số câu đúng</div></div>' +
+      '<div class="it"><div class="v">' + wrong.length + '</div><div class="k">Số câu sai</div></div>' +
+      '<div class="it"><div class="v">' + m + ":" + (s<10?"0":"") + s + '</div><div class="k">Thời gian làm bài</div></div>' +
+    '</div>' +
+    '<div style="margin-top:6px;padding:12px 16px;border-radius:10px;font-weight:700;font-size:14px;' +
+    (score>=80 ? "background:#edf7ee;color:#1e6b25;" : "background:#fdeeef;color:#a01c24;") + '">' + pass + '</div></div>';
+  $("reviewList").style.display = "none";
+  try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+}
+
+/* ===================== REVIEW ===================== */
+$("btnReview").onclick = function(){
+  var box = $("reviewList");
+  if(box.style.display === "none"){
+    var html = "<h3 style='text-align:center;'>🔍 Chi tiết từng câu (" + curTest.questions.length + " câu)</h3>";
+    var letters = ["A","B","C","D","E","F"];
+    for(var i=0;i<curTest.questions.length;i++){
+      var q = curTest.questions[i], ans = answers[i], ok = (ans === q.a);
+      var state = ok ? '<span class="ok">✓ Đúng</span>' : '<span class="no">✗ Sai</span>';
+      html += '<div class="review-item"><div class="rq">Câu ' + (i+1) + ' (' + (ok?"+2đ":"0đ") + ') ' + state + '</div>' +
+              '<div class="ra"><b>' + q.q + '</b><br>' +
+              q.opts.map(function(o, j){
+                var mark = "";
+                if(j === q.a) mark = " ✅ (đáp án)";
+                else if(j === ans && !ok) mark = " ❌ (bạn chọn)";
+                return letters[j] + ". " + o + mark;
+              }).join("<br>") + '</div>' +
+              (q.exp ? '<div class="exp"><b>Giải thích:</b> ' + q.exp + '</div>' : "") + '</div>';
+    }
+    box.innerHTML = html;
+    box.style.display = "block";
+    box.scrollIntoView({behavior:"smooth"});
+  } else {
+    box.style.display = "none";
+  }
+};
+$("btnRetry").onclick = function(){ startTest(TESTS.indexOf(curTest)); };
+$("btnCopyResult").onclick = function(){
+  if(!lastResult) return;
+  var r = lastResult;
+  var gradeTxt = r.score>=90 ? "⭐ Xuất sắc" : r.score>=70 ? "✅ Đạt yêu cầu" : r.score>=50 ? "⚠️ Cần rèn luyện" : "❌ Chưa đạt";
+  var m = Math.floor(r.elapsed/60), s = r.elapsed%60;
+  var txt = "🏆 KẾT QUẢ BÀI TEST — Thuỷ Spa / EvaS\n" +
+            "📝 " + r.test + "\n" +
+            "👤 Nhân viên: " + r.name + "\n" +
+            "📅 Ngày thi: " + r.date + "\n" +
+            "🎯 Điểm: " + r.score + "/100 (" + gradeTxt + ")\n" +
+            "✅ Đúng " + r.correct + "/" + r.total + " câu · ❌ Sai " + r.wrong + " câu · ⏱ " + m + ":" + (s<10?"0":"") + s;
+  function fallback(){
+    var ta = document.createElement("textarea");
+    ta.value = txt; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand("copy"); }catch(e){}
+    document.body.removeChild(ta);
+    alert("Đã sao chép kết quả. Hãy dán vào Zalo/Messenger gửi cho quản lý!");
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){ alert("Đã sao chép kết quả. Hãy dán vào Zalo/Messenger gửi cho quản lý!"); }, fallback);
+  } else { fallback(); }
+};
+$("btnHome").onclick = function(){
+  $("screenQuiz").style.display = "none";
+  $("screenResult").style.display = "none";
+  $("screenHome").style.display = "block";
+  renderHome();
+};
+
+/* init */
+renderHome();
+</script>
+</body>
+</html>
